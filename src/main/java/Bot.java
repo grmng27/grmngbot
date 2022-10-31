@@ -45,9 +45,11 @@ public class Bot extends TelegramLongPollingBot {
                 String chatId = inMess.getChatId().toString();
                 //Получаем текст сообщения пользователя, отправляем в написанный нами обработчик
                 String response = parseMessage(inMess.getText());
-                InputFile response2 = parseMessageSwitch(inMess.getText());
+                InputFile response1 = parseMessage1(inMess.getText());
+                InputFile response2 = parseMessageSwitch(inMess.getText(), AnimalType.SIAM);
                 sendMessage(update.getMessage().getChatId().toString(), response);
-                sendPhoto(update.getMessage().getChatId().toString(), response2);
+                sendPhoto(update.getMessage().getChatId().toString(), response1);
+                sendPhotoAnimal(update.getMessage().getChatId().toString(), response2);
         }
 
     private void sendMessage(String chatId, String response) {
@@ -68,7 +70,20 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-    private void sendPhoto(String chatId, InputFile response2) {
+    private void sendPhoto(String chatId, InputFile response1) {
+        try {
+            SendPhoto outPhoto = new SendPhoto();
+
+            outPhoto.setChatId(chatId);
+            outPhoto.setPhoto(response1);
+
+            execute(outPhoto);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void sendPhotoAnimal(String chatId, InputFile response2) {
         try {
             SendPhoto outPhoto = new SendPhoto();
 
@@ -177,55 +192,55 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     public InputFile parseMessage1(String textMsg) {
-        Animal animal;
+//        Animal animal;
         InputFile response1;
         //Сравниваем текст пользователя с нашими командами, на основе этого формируем ответ
         if (textMsg.equals("/picture") || textMsg.equals("Картиночка!"))
             response1 = storage2.getRandPicture();
-        else if (textMsg.equals("/siam") || textMsg.equalsIgnoreCase("Сиамская")) {
-            animal = createKitten("Сиамская", new InputFile("https://natalyland.ru/wp-content/uploads/4/c/f/4cf1254ec1aaca148747ce17c09d29f4.jpeg"));
-        response1 = animal.getPicture();
-        animal.say();
-        } else if (textMsg.equals("/abiss") || textMsg.equalsIgnoreCase("Абиссинская")) {
-            animal = createKitten("Абиссинская", new InputFile("https://skstoit.ru/wp-content/uploads/2022/01/skolko-stoit-abissinskaya-koshka-3.jpg"));
-            response1 = animal.getPicture();
-            animal.say();
-        }else if (textMsg.equals("/korgi") || textMsg.equalsIgnoreCase("Корги")) {
-                animal = createPuppy("Корги", new InputFile("https://twizz.ru/wp-content/uploads/2021/10/1634814596_83b98cf4840b3899b13d1498dd3e091b.jpg"));
-                response1 = animal.getPicture();
-                animal.say();
-        }else if (textMsg.equals("/taksa") || textMsg.equalsIgnoreCase("Такса")) {
-            animal = createPuppy("Такса", new InputFile("https://i.mycdn.me/i?r=AzEPZsRbOZEKgBhR0XGMT1RkzEphFLNps42C1TJy0Bi8-aaKTM5SRkZCeTgDn6uOyic"));
-            response1 = animal.getPicture();
-            animal.say();
-        } else response1 = new InputFile(" ");
+//        else if (textMsg.equals("/siam") || textMsg.equalsIgnoreCase("Сиамская")) {
+//            animal = createKitten("Сиамская", new InputFile("https://natalyland.ru/wp-content/uploads/4/c/f/4cf1254ec1aaca148747ce17c09d29f4.jpeg"));
+//        response1 = animal.getPicture();
+//        animal.say();
+//        } else if (textMsg.equals("/abiss") || textMsg.equalsIgnoreCase("Абиссинская")) {
+//            animal = createKitten("Абиссинская", new InputFile("https://skstoit.ru/wp-content/uploads/2022/01/skolko-stoit-abissinskaya-koshka-3.jpg"));
+//            response1 = animal.getPicture();
+//            animal.say();
+//        }else if (textMsg.equals("/korgi") || textMsg.equalsIgnoreCase("Корги")) {
+//                animal = createPuppy("Корги", new InputFile("https://twizz.ru/wp-content/uploads/2021/10/1634814596_83b98cf4840b3899b13d1498dd3e091b.jpg"));
+//                response1 = animal.getPicture();
+//                animal.say();
+//        }else if (textMsg.equals("/taksa") || textMsg.equalsIgnoreCase("Такса")) {
+//            animal = createPuppy("Такса", new InputFile("https://i.mycdn.me/i?r=AzEPZsRbOZEKgBhR0XGMT1RkzEphFLNps42C1TJy0Bi8-aaKTM5SRkZCeTgDn6uOyic"));
+//            response1 = animal.getPicture();
+//            animal.say();
+//        }
+        else response1 = new InputFile(" ");
             return response1;
     }
 
-    public InputFile parseMessageSwitch(String textMsg) {
+    public InputFile parseMessageSwitch(String textMsg, AnimalType animalType) {
         Animal animal;
         InputFile response2;
-        AnimalType animalType;
-        switch (textMsg) {
-            case animalType.SIAM:
+        switch (animalType) {
+            case SIAM:
                 if (textMsg.equals("/siam") || textMsg.equalsIgnoreCase("Сиамская")){
                     animal = createKitten("Сиамская", new InputFile("https://natalyland.ru/wp-content/uploads/4/c/f/4cf1254ec1aaca148747ce17c09d29f4.jpeg"));
                     response2 = animal.getPicture();
                     animal.say();
                     break;
-                } case AnimalType.ABISS:
+                } case ABISS:
                 if (textMsg.equals("/abiss") || textMsg.equalsIgnoreCase("Абиссинская")) {
                     animal = createKitten("Абиссинская", new InputFile("https://skstoit.ru/wp-content/uploads/2022/01/skolko-stoit-abissinskaya-koshka-3.jpg"));
                     response2 = animal.getPicture();
                     animal.say();
                     break;
-                } case AnimalType.TAKSA:
+                } case TAKSA:
                 if (textMsg.equals("/taksa") || textMsg.equalsIgnoreCase("Такса")) {
                     animal = createPuppy("Такса", new InputFile("https://i.mycdn.me/i?r=AzEPZsRbOZEKgBhR0XGMT1RkzEphFLNps42C1TJy0Bi8-aaKTM5SRkZCeTgDn6uOyic"));
                     response2 = animal.getPicture();
                     animal.say();
                     break;
-                } case AnimalType.KORGI:
+                } case KORGI:
                 if (textMsg.equals("/korgi") || textMsg.equalsIgnoreCase("Корги")) {
                     animal = createPuppy("Корги", new InputFile("https://twizz.ru/wp-content/uploads/2021/10/1634814596_83b98cf4840b3899b13d1498dd3e091b.jpg"));
                     response2 = animal.getPicture();
