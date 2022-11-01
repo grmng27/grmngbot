@@ -20,6 +20,7 @@ public class Bot extends TelegramLongPollingBot {
     final private String BOT_TOKEN = "5691199233:AAHMHiGNmAEfNz2TsMBh4FTb8WOhLuKaKdk";
     final private String BOT_NAME = "Grmng";
     private static final EnumSet<AnimalType> animalTypes = EnumSet.allOf(AnimalType.class);
+    private static final EnumSet<AnimalPuppy> animalPuppies = EnumSet.allOf(AnimalPuppy.class);
     Storage storage;
 
     StoragePic storage2;
@@ -49,11 +50,13 @@ public class Bot extends TelegramLongPollingBot {
 //                String response = parseMessage(inMess.getText());
 //                String response3 = parseMessageSwitch1(inMess.getText(), AnimalType.SIAM);
 //                InputFile response1 = parseMessage1(inMess.getText());
-                InputFile response2 = parseMsgSwitch(AnimalType.textOf(inMess.getText()));
-//                sendMessage(update.getMessage().getChatId().toString(), response);
-//                sendMessageAnimal(update.getMessage().getChatId().toString(), response3);
+                InputFile responseAnimal = parseMsgSwitch(AnimalType.textOf(inMess.getText()));
+                String responseKitten = parseMsgKitten(AnimalType.textOf(inMess.getText()));
+                String responsePuppy = parseMsgPuppy(AnimalPuppy.textOf(inMess.getText()));
+                sendMessage(update.getMessage().getChatId().toString(), responseKitten);
+                sendMessageAnimal(update.getMessage().getChatId().toString(), responsePuppy);
 //                sendPhoto(update.getMessage().getChatId().toString(), response1);
-                sendPhotoAnimal(update.getMessage().getChatId().toString(), response2);
+                sendPhotoAnimal(update.getMessage().getChatId().toString(), responseAnimal);
         }
 
     private void sendMessage(String chatId, String response) {
@@ -87,12 +90,12 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-    private void sendPhotoAnimal(String chatId, InputFile response2) {
+    private void sendPhotoAnimal(String chatId, InputFile responseAnimal) {
         try {
             SendPhoto outPhoto = new SendPhoto();
 
             outPhoto.setChatId(chatId);
-            outPhoto.setPhoto(response2);
+            outPhoto.setPhoto(responseAnimal);
 
             execute(outPhoto);
         } catch (TelegramApiException e) {
@@ -100,14 +103,14 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-    private void sendMessageAnimal(String chatId, String response3) {
+    private void sendMessageAnimal(String chatId, String responsePuppy) {
         try {
             //Создаем объект класса SendMessage - наш будущий ответ пользователю
             SendMessage outMess = new SendMessage();
 
             //Добавляем в наше сообщение id чата а также наш ответ
             outMess.setChatId(chatId);
-            outMess.setText(response3);
+            outMess.setText(responsePuppy);
 
             //Отправка в чат
             execute(outMess);
@@ -239,42 +242,25 @@ public class Bot extends TelegramLongPollingBot {
             return response1;
     }
 
-    public String parseMessageSwitch1(String textMsg, AnimalType animalType) {
-        Animal animal;
-        String response3;
-        switch (animalType) {
-            case SIAM:
-                if (textMsg.equals("/siam") || textMsg.equalsIgnoreCase("Сиамская")) {
-                    animal = createKitten("Сиамская", new InputFile("https://natalyland.ru/wp-content/uploads/4/c/f/4cf1254ec1aaca148747ce17c09d29f4.jpeg"));
-                    response3 = animal.say();
-                    break;
-                } case ABISS:
-                if (textMsg.equals("/siam") || textMsg.equalsIgnoreCase("Сиамская")) {
-                    animal = createKitten("Сиамская", new InputFile("https://natalyland.ru/wp-content/uploads/4/c/f/4cf1254ec1aaca148747ce17c09d29f4.jpeg"));
-                    response3 = animal.say();
-                    break;
-                } case TAKSA:
-                if (textMsg.equals("/taksa") || textMsg.equalsIgnoreCase("Такса")) {
-                    animal = createPuppy("Такса", new InputFile("https://i.mycdn.me/i?r=AzEPZsRbOZEKgBhR0XGMT1RkzEphFLNps42C1TJy0Bi8-aaKTM5SRkZCeTgDn6uOyic"));
-                    response3 = animal.say();
-                    break;
-                } case KORGI:
-                if (textMsg.equals("/korgi") || textMsg.equalsIgnoreCase("Корги")) {
-                    animal = createPuppy("Корги", new InputFile("https://twizz.ru/wp-content/uploads/2021/10/1634814596_83b98cf4840b3899b13d1498dd3e091b.jpg"));
-                    response3 = animal.say();
-                    break;
-                } default:
-                response3 = " ";
-        }
-        return response3;
-    }
-
     public InputFile parseMsgSwitch(AnimalType animalType) {
            Animal animal = createKitten(animalType.getText(), animalType.getPic());
            animal.say();
            return animalType.getPic();
     }
 
+    public String parseMsgKitten(AnimalType animalType) {
+        String response;
+        Animal animal = createKitten(animalType.getText(), animalType.getPic());
+        response = animal.say();
+        return response;
+    }
+
+    public String parseMsgPuppy(AnimalPuppy animalPuppy) {
+        String responsePuppy;
+        Animal animal = createPuppy(animalPuppy.getText(), animalPuppy.getPic());
+        responsePuppy = animal.say();
+        return responsePuppy;
+    }
 //    public InputFile parseMessageSwitch(String textMsg, AnimalType animalType) {
 //        Animal animal;
 //        InputFile response2;
