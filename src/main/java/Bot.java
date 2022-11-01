@@ -17,8 +17,12 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 public class Bot extends TelegramLongPollingBot {
     //создаем две константы, присваиваем им значения токена и имя бота соответсвтенно
     //вместо звездочек подставляйте свои данные
+    //TODO: модификатор доступа поменять местами с final, чтобы было правильно
+    //TODO: удалить все комментарии и все что закомментированно, по всему проекту, это мусор
+    //TODO: удалить все неиспользуемые методы
     final private String BOT_TOKEN = "5691199233:AAHMHiGNmAEfNz2TsMBh4FTb8WOhLuKaKdk";
     final private String BOT_NAME = "Grmng";
+    //TODO: удалить, не используется
     private static final EnumSet<AnimalType> animalTypes = EnumSet.allOf(AnimalType.class);
     private static final EnumSet<AnimalPuppy> animalPuppies = EnumSet.allOf(AnimalPuppy.class);
     Storage storage;
@@ -50,9 +54,12 @@ public class Bot extends TelegramLongPollingBot {
 //                String response = parseMessage(inMess.getText());
 //                String response3 = parseMessageSwitch1(inMess.getText(), AnimalType.SIAM);
 //                InputFile response1 = parseMessage1(inMess.getText());
+                //TODO: три раза происходит AnimalType.textOf(inMess.getText()) - вынести в переменную и ее использовать
+                //TODO: почему переменная называется responseAnimal, если это просто InputFile? переименуй
                 InputFile responseAnimal = parseMsgSwitch(AnimalType.textOf(inMess.getText()));
                 String responseKitten = parseMsgKitten(AnimalType.textOf(inMess.getText()));
                 String responsePuppy = parseMsgPuppy(AnimalPuppy.textOf(inMess.getText()));
+                //TODO: у тебя выше уже есть переменная chatId, зачем ты ее еще 3 раза достаешь?
                 sendMessage(update.getMessage().getChatId().toString(), responseKitten);
                 sendMessageAnimal(update.getMessage().getChatId().toString(), responsePuppy);
 //                sendPhoto(update.getMessage().getChatId().toString(), response1);
@@ -248,11 +255,10 @@ public class Bot extends TelegramLongPollingBot {
            return animalType.getPic();
     }
 
+
+    //TODO: здесь сделал красиво, разберись как это так получилось и сделай в методе собачки ниже так же
     public String parseMsgKitten(AnimalType animalType) {
-        String response;
-        Animal animal = createKitten(animalType.getText(), animalType.getPic());
-        response = animal.say();
-        return response;
+         return createKitten(animalType.getText(), animalType.getPic()).say();
     }
 
     public String parseMsgPuppy(AnimalPuppy animalPuppy) {
@@ -299,6 +305,7 @@ public class Bot extends TelegramLongPollingBot {
 //        return response2;
 //    }
 
+    //TODO: сделать билдер кошечке и собачке, создавать через билдер (можно использовать аннотации ломбок везде)
     private Kitten createKitten(String breed, InputFile picture) {
         Kitten kitten = new Kitten();
         kitten.setBreed(breed);
