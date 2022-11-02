@@ -15,12 +15,9 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class Bot extends TelegramLongPollingBot {
 
-    //TODO: модификатор доступа поменять местами с final, чтобы было правильно
-    //TODO: удалить все комментарии и все что закомментированно, по всему проекту, это мусор
     //TODO: удалить все неиспользуемые методы
     private final String BOT_TOKEN = "5691199233:AAHMHiGNmAEfNz2TsMBh4FTb8WOhLuKaKdk";
     private final String BOT_NAME = "Grmng";
-    //TODO: удалить, не используется
     Storage storage;
 
     StoragePic storage2;
@@ -47,17 +44,15 @@ public class Bot extends TelegramLongPollingBot {
                 String messText = inMess.getText();
 //                String responseQuote = parseMessage(inMess.getText());
 //                InputFile response1 = parseMessage1(inMess.getText());
-                //TODO: три раза происходит AnimalType.textOf(inMess.getText()) - вынести в переменную и ее использовать
-                //TODO: почему переменная называется responseAnimal, если это просто InputFile? переименуй
                 InputFile response = parseMsgSwitch(KittenType.textOf(messText));
                 String responseKitten = parseMsgKitten(KittenType.textOf(messText));
                 String responsePuppy = parseMsgPuppy(PuppyType.textOf(messText));
-                //TODO: у тебя выше уже есть переменная chatId, зачем ты ее еще 3 раза достаешь?
+
                 sendMessageKitten(chatId, responseKitten);
                 sendMessagePuppy(chatId, responsePuppy);
+                sendPhotoAnimal(chatId, response);
 //                sendMessageQuote(chatId, responseQuote);
 //                sendPhoto(update.getMessage().getChatId().toString(), response1);
-                sendPhotoAnimal(chatId, response);
         }
 
     private void sendMessageQuote(String chatId, String responseQuote) {
@@ -213,6 +208,7 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     //TODO: сделать билдер кошечке и собачке, создавать через билдер (можно использовать аннотации ломбок везде)
+//    получилось сделать только такой билдер, хз правильно или нет, поэтому у собаки пока не стала делать
     private Kitten createKitten(String breed, InputFile picture) {
        return Kitten.builder().build();
     }
