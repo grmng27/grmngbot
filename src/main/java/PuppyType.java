@@ -1,6 +1,6 @@
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 
-public enum AnimalPuppy {
+public enum PuppyType {
     TAKSA("/taksa", "Такса", new InputFile("https://i.mycdn.me/i?r=AzEPZsRbOZEKgBhR0XGMT1RkzEphFLNps42C1TJy0Bi8-aaKTM5SRkZCeTgDn6uOyic")),
     KORGI("/korgi", "Корги", new InputFile("https://twizz.ru/wp-content/uploads/2021/10/1634814596_83b98cf4840b3899b13d1498dd3e091b.jpg"));
 
@@ -8,7 +8,7 @@ public enum AnimalPuppy {
     private String text;
     private InputFile pic;
 
-    AnimalPuppy(String button, String text, InputFile pic) {
+    PuppyType(String button, String text, InputFile pic) {
         this.button = button;
         this.text = text;
         this.pic = pic;
@@ -38,7 +38,7 @@ public enum AnimalPuppy {
         this.pic = pic;
     }
 
-    public static AnimalPuppy textOf(String text) {
+    public static PuppyType textOf(String text) {
         if (KORGI.getText().equalsIgnoreCase(text)) {
             return KORGI;
         } else if (TAKSA.getText().equalsIgnoreCase(text)) {

@@ -24,24 +24,4 @@ public abstract class Animal implements Action{
     public void setPicture(InputFile picture) {
         this.picture = picture;
     }
-
-    //    public static class AnimalBuilder {
-//        private String breed; /*порода*/
-//        private InputFile picture;
-//
-//        public void animalBuilder(String breed, InputFile picture) {
-//            this.breed = breed;
-//            this.picture = picture;
-//        }
-//
-//        public AnimalBuilder setBreed(String breed) {
-//            this.breed = breed;
-//            return this;
-//        }
-//
-//        public AnimalBuilder setPicture(InputFile picture) {
-//            this.picture = picture;
-//            return this;
-//        }
-//    }
 }

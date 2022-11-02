@@ -1,7 +1,7 @@
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 
 //TODO: Переименуй тогда в KittenType, важно показать в названии что здесь только кошки и это типы кошек и енам собачек тоже
-public enum AnimalType {
+public enum KittenType {
 
     ABISS("/abiss", "Абиссинская", new InputFile("https://skstoit.ru/wp-content/uploads/2022/01/skolko-stoit-abissinskaya-koshka-3.jpg")),
     SIAM("/siam", "Сиамская", new InputFile("https://natalyland.ru/wp-content/uploads/4/c/f/4cf1254ec1aaca148747ce17c09d29f4.jpeg"));
@@ -10,7 +10,7 @@ public enum AnimalType {
     private String text;
     private InputFile pic;
 
-    AnimalType(String button, String text, InputFile pic) {
+    KittenType(String button, String text, InputFile pic) {
         this.button = button;
         this.text = text;
         this.pic = pic;
@@ -40,7 +40,7 @@ public enum AnimalType {
         this.pic = pic;
     }
 
-    public static AnimalType textOf(String text) {
+    public static KittenType textOf(String text) {
         if (SIAM.getText().equalsIgnoreCase(text)){
             return SIAM;
         } else if (ABISS.getText().equalsIgnoreCase(text)) {
