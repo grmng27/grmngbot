@@ -1,6 +1,5 @@
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 
-//TODO: Переименуй тогда в KittenType, важно показать в названии что здесь только кошки и это типы кошек и енам собачек тоже
 public enum KittenType {
 
     ABISS("/abiss", "Абиссинская", new InputFile("https://skstoit.ru/wp-content/uploads/2022/01/skolko-stoit-abissinskaya-koshka-3.jpg")),

@@ -15,11 +15,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class Bot extends TelegramLongPollingBot {
 
-    //TODO: удалить все неиспользуемые методы
     private final String BOT_TOKEN = "5691199233:AAHMHiGNmAEfNz2TsMBh4FTb8WOhLuKaKdk";
     private final String BOT_NAME = "Grmng";
     Storage storage;
-
+    //TODO: заменить название storage2 на говорящее, например storagePic
     StoragePic storage2;
 
     Bot() {
@@ -55,6 +54,7 @@ public class Bot extends TelegramLongPollingBot {
 //                sendPhoto(update.getMessage().getChatId().toString(), response1);
         }
 
+    //TODO: нигде не используется, зачем он остался?
     private void sendMessageQuote(String chatId, String responseQuote) {
         try {
             SendMessage outMessQuote = new SendMessage();
@@ -85,6 +85,7 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
+    //TODO: нигде не используется, зачем он остался?
     private void sendPhoto(String chatId, InputFile response1) {
         try {
             SendPhoto outPhoto = new SendPhoto();
@@ -151,23 +152,39 @@ public class Bot extends TelegramLongPollingBot {
 
     private InlineKeyboardMarkup inlineKeyboardKitten() {
         InlineKeyboardMarkup inlineKeyboardMarkup =new InlineKeyboardMarkup();
+
+        //TODO: прочитай тудушку над методом createInlineButton и сделай))
         InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
         inlineKeyboardButton.setText("Абиссинская");
         inlineKeyboardButton.setCallbackData("Абиссинская");
+
         InlineKeyboardButton inlineKeyboardButton2 = new InlineKeyboardButton();
         inlineKeyboardButton2.setText("Сиамская");
         inlineKeyboardButton2.setCallbackData("Сиамская");
+
+
+        //TODO: можно не создавать лист отдельно, а потом в него что-то пихать, можно при создании сразу запихать
+        // TODO: Arrays.asList - прогугли про это и сделай для keyboardButtonsRow1 и keyboardButtonsRow2
         List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
         keyboardButtonsRow1.add(inlineKeyboardButton);
+
         List<InlineKeyboardButton> keyboardButtonsRow2 = new ArrayList<>();
         keyboardButtonsRow2.add(inlineKeyboardButton2);
-        List<List<InlineKeyboardButton>> rowList= new ArrayList<>();
+
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
         rowList.add(keyboardButtonsRow1);
         rowList.add(keyboardButtonsRow2);
+
         inlineKeyboardMarkup.setKeyboard(rowList);
         return inlineKeyboardMarkup;
     }
 
+    //TODO: реализуй метод для создания inlineKeyboardButton и inlineKeyboardButton2
+    private InlineKeyboardButton createInlineButton(String text, String data) {
+
+    }
+
+    //TODO: нигде не используется, зачем он остался?
     public String parseMessage(String textMsg) {
         String responseQuote;
         if (textMsg.equals("/start"))
@@ -184,6 +201,7 @@ public class Bot extends TelegramLongPollingBot {
         return responseQuote;
     }
 
+    //TODO: нигде не используется, зачем он остался?
     public InputFile parseMessage1(String textMsg) {
         InputFile response1;
         if (textMsg.equals("/picture") || textMsg.equals("Картиночка!"))
@@ -198,7 +216,6 @@ public class Bot extends TelegramLongPollingBot {
            return kittenType.getPic();
     }
 
-    //TODO: здесь сделал красиво, разберись как это так получилось и сделай в методе собачки ниже так же
     public String parseMsgKitten(KittenType kittenType) {
          return createKitten(kittenType.getText(), kittenType.getPic()).say();
     }
@@ -207,8 +224,7 @@ public class Bot extends TelegramLongPollingBot {
         return createPuppy(puppyType.getText(), puppyType.getPic()).say();
     }
 
-    //TODO: сделать билдер кошечке и собачке, создавать через билдер (можно использовать аннотации ломбок везде)
-//    получилось сделать только такой билдер, хз правильно или нет, поэтому у собаки пока не стала делать
+    //TODO: создать то ты создала, но объект пустой получился, используя билдер задай ему breed и picture и у собачки так же
     private Kitten createKitten(String breed, InputFile picture) {
        return Kitten.builder().build();
     }

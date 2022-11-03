@@ -1,9 +1,4 @@
 import org.telegram.telegrambots.meta.api.objects.InputFile;
-//@Builder
-//@Getter
-//@Setter
-//@AllArgsConstructor
-//@NoArgsConstructor
 
 public abstract class Animal implements Action{
     private String breed; /*порода*/
