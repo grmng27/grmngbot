@@ -2,6 +2,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -18,12 +19,11 @@ public class Bot extends TelegramLongPollingBot {
     private final String BOT_TOKEN = "5691199233:AAHMHiGNmAEfNz2TsMBh4FTb8WOhLuKaKdk";
     private final String BOT_NAME = "Grmng";
     Storage storage;
-    //TODO: заменить название storage2 на говорящее, например storagePic
-    StoragePic storage2;
+    StoragePic storagePic;
 
     Bot() {
         storage = new Storage();
-        storage2 = new StoragePic();
+        storagePic = new StoragePic();
     }
 
     @Override
@@ -55,6 +55,7 @@ public class Bot extends TelegramLongPollingBot {
         }
 
     //TODO: нигде не используется, зачем он остался?
+//    потому что он отправляет рандом цитату >:(
     private void sendMessageQuote(String chatId, String responseQuote) {
         try {
             SendMessage outMessQuote = new SendMessage();
@@ -86,6 +87,7 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     //TODO: нигде не используется, зачем он остался?
+//        потому что он отправляет рандом фотку >:(
     private void sendPhoto(String chatId, InputFile response1) {
         try {
             SendPhoto outPhoto = new SendPhoto();
@@ -155,12 +157,14 @@ public class Bot extends TelegramLongPollingBot {
 
         //TODO: прочитай тудушку над методом createInlineButton и сделай))
         InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
-        inlineKeyboardButton.setText("Абиссинская");
-        inlineKeyboardButton.setCallbackData("Абиссинская");
+//        inlineKeyboardButton.setText("Абиссинская");
+//        inlineKeyboardButton.setCallbackData("Абиссинская");
+        createInlineButton("Абиссинская", "Абиссинская");
 
         InlineKeyboardButton inlineKeyboardButton2 = new InlineKeyboardButton();
-        inlineKeyboardButton2.setText("Сиамская");
-        inlineKeyboardButton2.setCallbackData("Сиамская");
+//        inlineKeyboardButton2.setText("Сиамская");
+//        inlineKeyboardButton2.setCallbackData("Сиамская");
+        createInlineButton("Сиамская", "Сиамская");
 
 
         //TODO: можно не создавать лист отдельно, а потом в него что-то пихать, можно при создании сразу запихать
@@ -181,10 +185,14 @@ public class Bot extends TelegramLongPollingBot {
 
     //TODO: реализуй метод для создания inlineKeyboardButton и inlineKeyboardButton2
     private InlineKeyboardButton createInlineButton(String text, String data) {
-
+        InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
+        inlineKeyboardButton.setText(text);
+        inlineKeyboardButton.setCallbackData(data);
+        return inlineKeyboardButton;
     }
 
     //TODO: нигде не используется, зачем он остался?
+//    потому что это то что отправляет цитату
     public String parseMessage(String textMsg) {
         String responseQuote;
         if (textMsg.equals("/start"))
@@ -202,10 +210,11 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     //TODO: нигде не используется, зачем он остался?
+//    потому что это то что отправляет рандом фото
     public InputFile parseMessage1(String textMsg) {
         InputFile response1;
         if (textMsg.equals("/picture") || textMsg.equals("Картиночка!"))
-            response1 = storage2.getRandPicture();
+            response1 = storagePic.getRandPicture();
         else response1 = new InputFile(" ");
             return response1;
     }
@@ -225,6 +234,7 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     //TODO: создать то ты создала, но объект пустой получился, используя билдер задай ему breed и picture и у собачки так же
+//не понимаю. порода и пикча прописана в абстрактном классе, билдер не работает с абстрактными классами, вот и получается, что мы не можем задать породу и пикчу через билдер
     private Kitten createKitten(String breed, InputFile picture) {
        return Kitten.builder().build();
     }
