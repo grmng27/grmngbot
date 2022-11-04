@@ -1,6 +1,7 @@
 import lombok.Builder;
+import lombok.experimental.SuperBuilder;
 
-@Builder
+@SuperBuilder
 public class Kitten extends Animal implements Action{
     @Override
     public String say() {

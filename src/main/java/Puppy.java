@@ -1,3 +1,6 @@
+import lombok.experimental.SuperBuilder;
+
+@SuperBuilder
 public class Puppy extends Animal implements Action {
     @Override
     public String say() {

@@ -1,5 +1,6 @@
+import lombok.experimental.SuperBuilder;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
-
+@SuperBuilder
 public abstract class Animal implements Action{
     private String breed; /*порода*/
     private InputFile picture;

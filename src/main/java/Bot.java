@@ -156,28 +156,17 @@ public class Bot extends TelegramLongPollingBot {
         InlineKeyboardMarkup inlineKeyboardMarkup =new InlineKeyboardMarkup();
 
         //TODO: прочитай тудушку над методом createInlineButton и сделай))
-        InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
-//        inlineKeyboardButton.setText("Абиссинская");
-//        inlineKeyboardButton.setCallbackData("Абиссинская");
-        createInlineButton("Абиссинская", "Абиссинская");
+        InlineKeyboardButton inlineKeyboardButton = createInlineButton("Абиссинская", "Абиссинская");
 
-        InlineKeyboardButton inlineKeyboardButton2 = new InlineKeyboardButton();
-//        inlineKeyboardButton2.setText("Сиамская");
-//        inlineKeyboardButton2.setCallbackData("Сиамская");
-        createInlineButton("Сиамская", "Сиамская");
-
+        InlineKeyboardButton inlineKeyboardButton2 = createInlineButton("Сиамская", "Сиамская");
 
         //TODO: можно не создавать лист отдельно, а потом в него что-то пихать, можно при создании сразу запихать
         // TODO: Arrays.asList - прогугли про это и сделай для keyboardButtonsRow1 и keyboardButtonsRow2
-        List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
-        keyboardButtonsRow1.add(inlineKeyboardButton);
+        List<InlineKeyboardButton> keyboardButtonsRow1 = Arrays.asList(inlineKeyboardButton);
 
-        List<InlineKeyboardButton> keyboardButtonsRow2 = new ArrayList<>();
-        keyboardButtonsRow2.add(inlineKeyboardButton2);
+        List<InlineKeyboardButton> keyboardButtonsRow2 = Arrays.asList(inlineKeyboardButton2);
 
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
-        rowList.add(keyboardButtonsRow1);
-        rowList.add(keyboardButtonsRow2);
+        List<List<InlineKeyboardButton>> rowList = Arrays.asList(keyboardButtonsRow1, keyboardButtonsRow2);
 
         inlineKeyboardMarkup.setKeyboard(rowList);
         return inlineKeyboardMarkup;
@@ -188,6 +177,7 @@ public class Bot extends TelegramLongPollingBot {
         InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
         inlineKeyboardButton.setText(text);
         inlineKeyboardButton.setCallbackData(data);
+
         return inlineKeyboardButton;
     }
 
@@ -233,17 +223,12 @@ public class Bot extends TelegramLongPollingBot {
         return createPuppy(puppyType.getText(), puppyType.getPic()).say();
     }
 
-    //TODO: создать то ты создала, но объект пустой получился, используя билдер задай ему breed и picture и у собачки так же
-//не понимаю. порода и пикча прописана в абстрактном классе, билдер не работает с абстрактными классами, вот и получается, что мы не можем задать породу и пикчу через билдер
     private Kitten createKitten(String breed, InputFile picture) {
-       return Kitten.builder().build();
+       return Kitten.builder().breed(breed).picture(picture).build();
     }
 
     private Puppy createPuppy(String breed, InputFile picture) {
-        Puppy puppy = new Puppy();
-        puppy.setBreed(breed);
-        puppy.setPicture(picture);
-        return puppy;
+        return Puppy.builder().breed(breed).picture(picture).build();
     }
 }
 
