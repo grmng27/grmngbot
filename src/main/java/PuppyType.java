@@ -1,6 +1,8 @@
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 
-public enum PuppyType {
+import java.util.Optional;
+
+public enum PuppyType implements AnimalType {
     TAKSA("/taksa", "Такса", new InputFile("https://i.mycdn.me/i?r=AzEPZsRbOZEKgBhR0XGMT1RkzEphFLNps42C1TJy0Bi8-aaKTM5SRkZCeTgDn6uOyic")),
     KORGI("/korgi", "Корги", new InputFile("https://twizz.ru/wp-content/uploads/2021/10/1634814596_83b98cf4840b3899b13d1498dd3e091b.jpg"));
 
@@ -38,11 +40,11 @@ public enum PuppyType {
         this.pic = pic;
     }
 
-    public static PuppyType textOf(String text) {
+    public static Optional<AnimalType> textOf(String text) {
         if (KORGI.getText().equalsIgnoreCase(text)) {
-            return KORGI;
+            return Optional.of(KORGI);
         } else if (TAKSA.getText().equalsIgnoreCase(text)) {
-            return TAKSA;
-        } else return KORGI;
+            return Optional.of(TAKSA);
+        } else return Optional.empty();
     }
 }

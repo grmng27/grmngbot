@@ -41,16 +41,17 @@ public class Bot extends TelegramLongPollingBot {
                 Message inMess = update.getMessage();
                 String chatId = inMess.getChatId().toString();
                 String messText = inMess.getText();
-//                String responseQuote = parseMessage(inMess.getText());
+                String responseQuote = parseMessage(inMess.getText());
 //                InputFile response1 = parseMessage1(inMess.getText());
-                InputFile response = parseMsgSwitch(KittenType.textOf(messText));
+//        TODO: в парсемсгсвитч должны определяться кошки и собаки
+                InputFile response = parseMsgSwitch(KittenType.textOf(messText).orElseGet(PuppyType.textOf(messText).get()));
                 String responseKitten = parseMsgKitten(KittenType.textOf(messText));
                 String responsePuppy = parseMsgPuppy(PuppyType.textOf(messText));
 
                 sendMessageKitten(chatId, responseKitten);
                 sendMessagePuppy(chatId, responsePuppy);
                 sendPhotoAnimal(chatId, response);
-//                sendMessageQuote(chatId, responseQuote);
+                sendMessageQuote(chatId, responseQuote);
 //                sendPhoto(update.getMessage().getChatId().toString(), response1);
         }
 
@@ -120,6 +121,8 @@ public class Bot extends TelegramLongPollingBot {
 
             outMessPuppy.setChatId(chatId);
             outMessPuppy.setText(responsePuppy);
+            outMessPuppy.setReplyMarkup(replyMarkup());
+            outMessPuppy.setReplyMarkup(inlineKeyboardKitten());
 
             execute(outMessPuppy);
         } catch (TelegramApiException e) {
@@ -153,18 +156,10 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     private InlineKeyboardMarkup inlineKeyboardKitten() {
-        InlineKeyboardMarkup inlineKeyboardMarkup =new InlineKeyboardMarkup();
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
-        //TODO: прочитай тудушку над методом createInlineButton и сделай))
-        InlineKeyboardButton inlineKeyboardButton = createInlineButton("Абиссинская", "Абиссинская");
-
-        InlineKeyboardButton inlineKeyboardButton2 = createInlineButton("Сиамская", "Сиамская");
-
-        //TODO: можно не создавать лист отдельно, а потом в него что-то пихать, можно при создании сразу запихать
-        // TODO: Arrays.asList - прогугли про это и сделай для keyboardButtonsRow1 и keyboardButtonsRow2
-        List<InlineKeyboardButton> keyboardButtonsRow1 = Arrays.asList(inlineKeyboardButton);
-
-        List<InlineKeyboardButton> keyboardButtonsRow2 = Arrays.asList(inlineKeyboardButton2);
+        List<InlineKeyboardButton> keyboardButtonsRow1 = Arrays.asList(createInlineButton("Абиссинская", "Абиссинская"));
+        List<InlineKeyboardButton> keyboardButtonsRow2 = Arrays.asList(createInlineButton("Сиамская", "Сиамская"));
 
         List<List<InlineKeyboardButton>> rowList = Arrays.asList(keyboardButtonsRow1, keyboardButtonsRow2);
 
@@ -172,7 +167,6 @@ public class Bot extends TelegramLongPollingBot {
         return inlineKeyboardMarkup;
     }
 
-    //TODO: реализуй метод для создания inlineKeyboardButton и inlineKeyboardButton2
     private InlineKeyboardButton createInlineButton(String text, String data) {
         InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
         inlineKeyboardButton.setText(text);
@@ -209,10 +203,10 @@ public class Bot extends TelegramLongPollingBot {
             return response1;
     }
 
-    public InputFile parseMsgSwitch(KittenType kittenType) {
-           Animal animal = createKitten(kittenType.getText(), kittenType.getPic());
+    public InputFile parseMsgSwitch(AnimalType animalType) {
+           Animal animal = createKitten(animalType.getText(), animalType.getPic());
            animal.say();
-           return kittenType.getPic();
+           return animalType.getPic();
     }
 
     public String parseMsgKitten(KittenType kittenType) {
